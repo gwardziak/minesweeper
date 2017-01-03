@@ -7,7 +7,7 @@ $(function () {
 
     runGame();
 
-    function runGame(){
+    function runGame() {
         addBombsToGameArray();
         setNumberOfBombsAdjacentToField();
         appendElements();
@@ -182,7 +182,7 @@ $(function () {
         }
         var span = $('span');
         span.empty();
-        span.append("bombs left "+bombs);
+        span.append("bombs left " + bombs);
     }
 
 //TIME FOR LAWINA HERE
@@ -248,7 +248,7 @@ $(function () {
     }
 
     function floodFill(y, x) {
-        if ((0 > x || x > gameBoardWidth-1) || (0 > y || y > gameBoardHeight-1)) { //wyjebalem chujowy kod isOutOfArray() i dalem na ten co robliismy po pojanemu na sprawdzanie czy nie wychodzi z planszy
+        if ((0 > x || x > gameBoardWidth - 1) || (0 > y || y > gameBoardHeight - 1)) { //wyjebalem chujowy kod isOutOfArray() i dalem na ten co robliismy po pojanemu na sprawdzanie czy nie wychodzi z planszy
 
             return;
         }
@@ -256,7 +256,7 @@ $(function () {
 
             return;
         }
-        if(isFieldAlreadyClicked[y][x]) {
+        if (isFieldAlreadyClicked[y][x]) {
 
             return;
         }
