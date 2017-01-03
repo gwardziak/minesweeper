@@ -236,9 +236,9 @@ $(function () {
 
     function isFieldEmpty(index, id) {
         if (gameBoard[index[0]][index[1]] != 0) {
-            var id = $('#' + id);
-            id.find('img').remove();
-            id.text(gameBoard[index[0]][index[1]]);
+            var jqueryId = $('#' + id);
+            jqueryId.find('img').remove();
+            jqueryId.text(gameBoard[index[0]][index[1]]);
             isFieldAlreadyClicked[index[0]][index[1]] = true;
         }
         else {
