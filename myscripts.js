@@ -21,15 +21,15 @@ $(function () {
         return 8;
     }
 
-    function gameGameBoardSize() {
+    function gameGameBoardSize() { // typo? xD
         return gameBoardWidth * gameBoardHeight;
     }
 
-    function setAmountOfBombs() {
+    function setAmountOfBombs() { // set ???
         return gameBoardWidth + gameBoardHeight;
     }
 
-    function fillTwoDimensionalArray(value) {
+    function fillTwoDimensionalArray(value) { // ta metoda nie robi tego co jest napisane w jej nazwie
         var array = [];
         for (var i = 0; i < gameBoardHeight; i++) {
             array[i] = [];
@@ -40,12 +40,13 @@ $(function () {
         return array;
     }
 
-    function getBombsIndex() {
+    function getBombsIndex() { // getBombIndexes, a tak naprawde to ta funckja sie powinna nazywac generateRandomBombs
         var bombsIndex = [];
         var bombs = setAmountOfBombs();
         var gameFields = gameGameBoardSize();
         for (var i = 0; i < bombs; i++) {
-            bombsIndex[i] = parseInt(Math.floor(Math.random() * gameFields));
+            bombsIndex[i] = parseInt(Math.floor(Math.random() * gameFields)); // 1. Na chuj parseInt.
+                                                                              // 2. Tutaj powinno byc wywolanie plac
         }
         bombsIndex.sort(function (a, b) {
             return a - b
@@ -53,10 +54,10 @@ $(function () {
         checkDifferentBombsIndex(bombsIndex);
         for (i = 0; i < bombs; i++)
             bombsIndex[i] = setIndexOfElement(bombsIndex[i]);
-        return bombsIndex;
+        return bombsIndex; // ogolnie cala ta funckja jest zdupcona xD
     }
 
-    function checkDifferentBombsIndex(array) {
+    function checkDifferentBombsIndex(array) { // ?????????????????
         var gameFields = gameGameBoardSize();
         for (var i = 0; i < array.length; i++) {
             if (array[i] == array[i + 1]) {
@@ -72,7 +73,7 @@ $(function () {
     function addBombsToGameArray() {
         var bombs = getBombsIndex();
         for (var i = 0; i < bombs.length; i++) {
-            gameBoard[bombs[i][0]][bombs[i][1]] = "bomb";
+            gameBoard[bombs[i][0]][bombs[i][1]] = "bomb"; // oczy bolą [][[[[]]][[[[]]]]]
         }
     }
 
@@ -93,7 +94,7 @@ $(function () {
     }
 
     function setNumberOfBombsAdjacentToField() {
-        for (var i = 0; i < gameBoardHeight; i++) {
+        for (var i = 0; i < gameBoardHeight; i++) {   // nom \/
             for (var j = 0; j < gameBoardWidth; j++) {//TODO to strasznie slabo dziala, jest ogromnie nieczytelnie, do zmiany
                 if (gameBoard[i][j] == "bomb") {
                     if (checkTopGameEdge(i) && gameBoard[i - 1][j] != "bomb")
@@ -121,7 +122,7 @@ $(function () {
         return ['_images/field.png', '_images/flagged.png', '_images/unknown.png'];
     }
 
-    function createGameTable() {
+    function createGameTable() { // a jQuery na chuj masz?
         var id = 0;
         var gameTable = ("<table>");
         for (var i = 0; i < gameBoardHeight; i++) {
@@ -144,13 +145,14 @@ $(function () {
     $('td').mousedown(function (event) {
         if (event.which == 3) {
             changeImage(this);
-            $(document).on("contextmenu", "td", function (event) {
+            $(document).on("contextmenu", "td", function (event) { // To nie powinno byc w callbacku.
                 event.preventDefault();
                 return false;
             });
+            return;
         }
-        else
-            discoverField(this);
+
+        return discoverField(this);
     });
 
     function changeImage(element) {
@@ -180,9 +182,7 @@ $(function () {
                     bombs--;
             }
         }
-        var span = $('span');
-        span.empty();
-        span.append("bombs left " + bombs);
+        $('span').text("bombs left " + bombs);
     }
 
 //TIME FOR LAWINA HERE
@@ -194,12 +194,12 @@ $(function () {
                 console.log("GAME OVER");
             }
             else {
-                isFieldEmpty(index, element.id);
+                isFieldEmpty(index, element.id); // no ja jebie funkcja isCostam coś robi hello?
             }
         }
     }
 
-    function setIndexOfElement(id) {
+    function setIndexOfElement(id) { // nie mam zielonego pojecia o chuj tu chodzi. Nazwa funckji sie z niczym nie pokrywa.
         var width = parseInt(gameBoardWidth);
         var height = parseInt(gameBoardHeight);
         if (id >= width) {
@@ -210,7 +210,7 @@ $(function () {
             width = id;
             height = 0;
         }
-        return [parseInt(height), parseInt(width)];
+        return [parseInt(height), parseInt(width)]; //  { height: height, width: width };
     }
 
     function isFieldClicked(y, x) {
@@ -230,24 +230,22 @@ $(function () {
             $(element).find('img').attr('src', '_images/clickedBomb.png');
             return true;
         }
-        else
-            return false;
+
+        return false;
     }
 
-    function isFieldEmpty(index, id) {
+    function isFieldEmpty(index, id) { // fajna nazwa
         if (gameBoard[index[0]][index[1]] != 0) {
             var jqueryId = $('#' + id);
             jqueryId.find('img').remove();
             jqueryId.text(gameBoard[index[0]][index[1]]);
             isFieldAlreadyClicked[index[0]][index[1]] = true;
-        }
-        else {
+        } else {
             floodFill(index[0], index[1]);
-
         }
     }
 
-    function floodFill(y, x) {
+    function floodFill(y, x) { // iluminati... Dlaczego w tych pierwszych ifach sa taby na początku?
         if ((0 > x || x > gameBoardWidth - 1) || (0 > y || y > gameBoardHeight - 1)) { //wyjebalem chujowy kod isOutOfArray() i dalem na ten co robliismy po pojanemu na sprawdzanie czy nie wychodzi z planszy
 
             return;
@@ -269,8 +267,7 @@ $(function () {
             $(idJQuery).text(gameBoard[y][x]);
             isFieldAlreadyClicked[y][x] = true;
 
-        }
-        else {
+        } else {
             removeImg;
             $(idJQuery).text(gameBoard[y][x]);
             isFieldAlreadyClicked[y][x] = true;
@@ -283,8 +280,6 @@ $(function () {
             floodFill(y + 1, x - 1);
             floodFill(y + 1, x);
             floodFill(y + 1, x + 1);
-
         }
     }
-
 });
