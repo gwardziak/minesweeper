@@ -25,11 +25,11 @@ $(function () {
         return gameBoardWidth * gameBoardHeight;
     }
 
-    function setAmountOfBombs() { // set ???
+    function setAmountOfBombs() { // TODO nie ustawiasz bomb, tylko pobierasz ich ilosc
         return gameBoardWidth + gameBoardHeight;
     }
 
-    function fillTwoDimensionalArray(value) { // ta metoda nie robi tego co jest napisane w jej nazwie
+    function fillTwoDimensionalArray(value) { // TODO ta metoda nie robi tego co jest napisane w jej nazwie, zgadzam sie
         var array = [];
         for (var i = 0; i < gameBoardHeight; i++) {
             array[i] = [];
@@ -40,7 +40,7 @@ $(function () {
         return array;
     }
 
-    function getBombsIndex() { // getBombIndexes, a tak naprawde to ta funckja sie powinna nazywac generateRandomBombs
+    function getBombsIndex() { // getBombIndexes, a tak naprawde to ta funckja sie powinna nazywac generateRandomBombs //TODO ta metoda jest w chuj dluga, ja bym uproscil ja albo wydzielil kod
         var bombsIndex = [];
         var bombs = setAmountOfBombs();
         var gameFields = gameGameBoardSize();
@@ -59,11 +59,11 @@ $(function () {
 
     function checkDifferentBombsIndex(array) { // ?????????????????
         var gameFields = gameGameBoardSize();
-        for (var i = 0; i < array.length; i++) {
+        for (var i = 0; i < array.length; i++) {// TODO zmien nazwe argumentu zeby bylo bardziej wiadomo o co kaman
             if (array[i] == array[i + 1]) {
                 array[i + 1] = Math.floor(Math.random() * gameFields);
                 array.sort(function (a, b) {
-                    return a - b
+                    return a - b // TODO czemu tu nie ma srednika?
                 });
                 i = -1;
             }
@@ -77,7 +77,7 @@ $(function () {
         }
     }
 
-    function checkTopGameEdge(height) {
+    function checkTopGameEdge(height) { // TODO co to jest gameEdge? sprawdz krawedz gry? Zmien to game na cos zwiazane z plansza, tablica gry
         return height - 1 >= 0;
     }
 
@@ -174,7 +174,7 @@ $(function () {
         bombsCounter(visualArray);
     }
 
-    function bombsCounter(array) {
+    function bombsCounter(array) { //tODO to samo, nazywaj dobrze argumenty aby pozniej ktos kto czyta pierwszy raz kod wiedzial o co chodzi a nie domyslal sie
         var bombs = setAmountOfBombs();
         for (var i = 0; i < gameBoardHeight; i++) {
             for (var j = 0; j < gameBoardWidth; j++) {
@@ -185,9 +185,9 @@ $(function () {
         $('span').text("bombs left " + bombs);
     }
 
-//TIME FOR LAWINA HERE
+//TIME FOR LAWINA HERE //TODO wypierdol to i nie zasmiecaj czyms takim kodu, jak chcesz jakos oznaczyc linijke uzyj F11
 
-    function discoverField(element) {
+    function discoverField(element) { //same
         var index = setIndexOfElement(element.id);
         if (!isFieldClicked(index[0], index[1])) {
             if (isBomb(element, index)) {
@@ -230,7 +230,6 @@ $(function () {
             $(element).find('img').attr('src', '_images/clickedBomb.png');
             return true;
         }
-
         return false;
     }
 
@@ -247,31 +246,28 @@ $(function () {
 
     function floodFill(y, x) { // iluminati... Dlaczego w tych pierwszych ifach sa taby na początku?
         if ((0 > x || x > gameBoardWidth - 1) || (0 > y || y > gameBoardHeight - 1)) { //wyjebalem chujowy kod isOutOfArray() i dalem na ten co robliismy po pojanemu na sprawdzanie czy nie wychodzi z planszy
-
             return;
         }
         if (isFieldClicked(y, x)) {
-
             return;
         }
         if (isFieldAlreadyClicked[y][x]) {
-
             return;
         }
         var id = parseInt((y * gameBoardWidth) + x);
         var idJQuery = "#" + id.toString();
 
-        var removeImg = $(idJQuery).find('img').remove()
+        var removeImg = $(idJQuery).find('img').remove() //TODO gdzie jest srednik? masz szczescie ze js to jezyk dla debili i przechodza takie podstawowe bledy XD, btw wydziel ten kod do metody np. removeElement, nawet ide Ci podswietlalo ze to nie powinno dzialac
         if (gameBoard[y][x] > 0) {
-            removeImg;
+            removeImg; // to
             $(idJQuery).text(gameBoard[y][x]);
             isFieldAlreadyClicked[y][x] = true;
 
         } else {
-            removeImg;
+            removeImg; //i to
             $(idJQuery).text(gameBoard[y][x]);
             isFieldAlreadyClicked[y][x] = true;
-
+// TODO wsadz to do petli
             floodFill(y - 1, x - 1);
             floodFill(y - 1, x);
             floodFill(y - 1, x + 1);
